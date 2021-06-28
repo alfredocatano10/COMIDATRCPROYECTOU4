@@ -191,14 +191,6 @@ LOGOOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 #----------------------------------------------------------------------
-# LLAVES DE STRIPE
-#----------------------------------------------------------------------
-
-STRIPE_TEST_PUBLISHABLE_KEY=os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
-
-STRIPE_TEST_SECRET_KEY=os.environ.get('STRIPE_TEST_SECRET_KEY')
-
-#----------------------------------------------------------------------
 # VARIABLES DE CORREO Y AUTENTIFICACION DE CORREO
 #----------------------------------------------------------------------
 
@@ -212,9 +204,11 @@ EMAIL_HOST_USER = 'alu.15131296@correo.itlalaguna.edu.mx'
 
 EMAIL_HOST_PASSWORD = '123456789'
 
-EMAIL_PORT = '587'
+EMAIL_PORT = 587
 
-EMAIL_USE_TSL = False
+EMAIL_USE_TLS = True
+
+EMAIL_USE_SSL = False
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
