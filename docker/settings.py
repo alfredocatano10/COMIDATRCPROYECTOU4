@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path, os
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,19 @@ SECRET_KEY = 'qi%r-i7w^cx$42j_&6m$9rc!07@getl9pu3qtk!ahztae#jwl9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ENVIROMENT = os.environ.get('ENVIROMENT',default='development')
+ALLOWED_HOSTS = ['.herokuapp.com','localhost', '127.0.0.1', '0.0.0.0']
+
+if ENVIROMENT == 'production':
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+    SECURE_sSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    CSFR_COOKIE_SECURE = True
 
 
 # Application definition
@@ -38,7 +52,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'crispy_forms',
+    'allauth',
+    'allauth.account', 
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -175,26 +195,60 @@ STRIPE_TEST_SECRET_KEY=os.environ.get('STRIPE_TEST_SECRET_KEY')
 # VARIABLES DE CORREO Y AUTENTIFICACION DE CORREO
 #----------------------------------------------------------------------
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'alu.15131296@correo.itlalaguna.edu.mx'
+
+EMAIL_HOST_PASSWORD = '123456789'
+
+EMAIL_PORT = '587'
+
+EMAIL_USE_TSL = True
+
+DEFAULT_FROM_EMAIL = 'CodingWithMitch Team <noreply@codingwithmitch.com>'
+
+
+ACCOUNT_EMAIL_VERIFICATION = True
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+# django-allauth config
+
+SITE_ID = 1
+
+AUTHENTICATION_BACKENDS = (
+ 'django.contrib.auth.backends.ModelBackend',
+ 'allauth.account.auth_backends.AuthenticationBackend', # new
+ 'social.backends.github.GithubOAuth2',
+)
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+ACCOUNT_SESSION_REMEMBER = True
 
-# EMAIL_HOST = 'smtp.googlemail.com'
+SOCIAL_AUTH_GITHUB_KEY = 'a3112903b470adc278f4'
 
-# EMAIL_PORT = '587'
+SOCIAL_AUTH_GITHUB_SECRET = '48caabfed0a8b9d6819a087c2b4a95b93450c4d5'
 
-# EMAIL_USE_TSL = True
 
-# EMAIL_HOST_USER = 'alu.15131296@correo.itlalaguna.edu.mx'
-
-# EMAIL_HOST_PASSWORD = '123456789'
-
-# ACCOUNT_EMAIL_VERIFICATION = True
-
-# ACCOUNT_UNIQUE_EMAIL = True
-
-# ACCOUNT_EMAIL_REQUIRED = True
-
-# ACCOUNT_USERNAME_REQUIRED = False
-
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.social_auth.associate_by_email',  # <--- enable this one. to match users per email adress
+    'social.pipeline.user.create_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)

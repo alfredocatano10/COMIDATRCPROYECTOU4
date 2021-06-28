@@ -7,6 +7,12 @@ name = "pypi"
 django = "*"
 pillow = "*"
 django-crispy-forms = "*"
+psycopg2-binary = "*"
+python-decouple = "*"
+stripe = "*"
+django-allauth = "*"
+python-social-auth = "*"
+social-auth-app-django = "*"
 
 [dev-packages]
 

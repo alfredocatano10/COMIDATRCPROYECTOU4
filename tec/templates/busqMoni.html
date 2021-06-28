@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="p-4"><br>
+
+	<center><h1>Productos encontrados</h1></center>
+
+	<form class="form-control"  method="get" action="{% url 'busqMoni' %}">
+	 	<input name="q" class="form-control mr-sm-2" type="text"
+				placeholder="Buscar un producto" aria-label="Search">
+	</form><hr>
+
+	<form class="form-control">
+		<div class="row">
+			
+				{% for monitores in moni_list %}
+				<div class=col-md-4>
+                    <br>
+                    <div class="card">
+                    	<div class="card-body">
+
+					        <strong><p>{{ monitores.producto }}</p></strong><hr>
+
+					        <center><img src="{{ monitores.imagen.url }}" height="220" width="220"></center>
+
+					        <strong>Marca: </strong><p>{{ monitores.marca }}</p>
+
+					        <strong>Modelo: </strong><p>{{ monitores.modelo }}</p>
+
+					        <strong>Precio: </strong><p>{{ monitores.precio }}</p>
+
+					        <strong>Fecha: </strong><p>{{ monitores.fecha }}</p>
+					        
+		                    <br>   
+
+		                    {% if perms.tec.change_memorias %}
+					        <p><a  class= "btn btn-primary btn-sm" href="{% url 'modificarMonitores' monitores.id  %}">Modificar</a></p>
+					        {% endif %}
+
+					        {% if perms.tec.delete_memorias %}
+					        <p><a  class= "btn btn-danger btn-sm" href="{% url 'eliminarMonitores' monitores.id  %}">Eliminar</a></p>
+					        {% endif %}
+
+                    	</div>
+                    </div>
+				</div>
+	    		{% endfor %}
+
+		</div><br>
+
+		
+			<p><a  class= "btn btn-primary btn-sm" href="{% url 'monitores' %}">Atras</a></p>
+		
+		
+	</form><br><br><br>
+
+</div>
+
+{% endblock content %}

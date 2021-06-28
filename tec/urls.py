@@ -1,25 +1,27 @@
-from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from django.conf.urls.static import static
-from .views import password_reset_request,eliminarMan,agregarMan,modificarMan,eliminarNeu,modificarNeu,agregarNeu,eliminarEle,modificarEle,agregarEle,ElectricasPageView,NeumaticasPageView,AcercaPageView,ProductosPageView,HomePageView,RegistroPageView,registro_usuario,changePassword
+from django.contrib.auth import views as auth_views
+from .views import monitoresPageViewBusq,tecladosPageViewBusq,memoriasPageViewBusq,agregarMemorias,agregarMonitores,agregarTeclados,eliminarMemorias,eliminarMonitores,eliminarTeclados,modificarMemorias,modificarMonitores,modificarTeclados,tecladosPageView,memoriasPageView,monitoresPageView,password_reset_request,HomePageView,RegistroPageView,registro_usuario,changePassword
 
 urlpatterns = [
 	path('',HomePageView.as_view(),name = 'home'),
+	path('teclados/',tecladosPageView.as_view(), name = 'teclados'),
+	path('memorias/',memoriasPageView.as_view(), name = 'memorias'),
+	path('monitores/',monitoresPageView.as_view(), name = 'monitores'),
+	path('modificarTeclados/<id>/',modificarTeclados, name = 'modificarTeclados'),
+	path('eliminarTeclados/<id>/',eliminarTeclados, name = 'eliminarTeclados'),
+	path('agregarTeclados/',agregarTeclados, name = 'agregarTeclados'),
+	path('modificarMemorias/<id>/',modificarMemorias, name = 'modificarMemorias'),
+	path('eliminarMemorias/<id>/',eliminarMemorias, name = 'eliminarMemorias'),
+	path('agregarMemorias/',agregarMemorias, name = 'agregarMemorias'),
+	path('eliminarMonitores/<id>/',eliminarMonitores, name = 'eliminarMonitores'),
+	path('modificarMonitores/<id>/',modificarMonitores, name = 'modificarMonitores'),
+	path('agregarMonitores/',agregarMonitores, name = 'agregarMonitores'),
 	path('registration/registro_success',RegistroPageView.as_view(), name = 'registro_success'),
 	path('registration/registrar', registro_usuario, name='registrar'),	
-	path('change_password/', changePassword, name = 'change_password' ),
 	path("password_reset", password_reset_request, name="password_reset"),
-	path('productos/',ProductosPageView.as_view(), name = 'productos'),
-	path('acercade/', AcercaPageView.as_view(), name = 'acerca'),
-	path('electricas/',ElectricasPageView.as_view(), name = 'electricas'),
-	path('neumaticas/',NeumaticasPageView.as_view(), name = 'neumaticas'),
-	path('modificarEle/<id>/',modificarEle, name = 'modificarEle'),
-	path('eliminarEle/<id>/',eliminarEle, name = 'eliminarEle'),
-	path('agregarEle/',agregarEle, name = 'agregarEle'),
-	path('modificarMan/<id>/',modificarMan, name = 'modificarMan'),
-	path('eliminarMan/<id>/',eliminarMan, name = 'eliminarMan'),
-	path('agregarMan/',agregarMan, name = 'agregarMan'),
-	path('eliminarNeu/<id>/',eliminarNeu, name = 'eliminarNeu'),
-	path('modificarNeu/<id>/',modificarNeu, name = 'modificarNeu'),
-	path('agregarNeu/',agregarNeu, name = 'agregarNeu'),
+	path('change_password/', changePassword, name = 'change_password' ),
+	path('busqMemo/', memoriasPageViewBusq.as_view(), name = 'busqMemo' ),
+	path('busqMoni/', monitoresPageViewBusq.as_view(), name = 'busqMoni' ),
+	path('busqTecl/', tecladosPageViewBusq.as_view(), name = 'busqTecl' ),
 ]

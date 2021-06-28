@@ -25,7 +25,7 @@ from .forms import tecladosForm, monitoresForm, memoriasForm , CustomUserForm
 #---------------------------------------------------------------
 
 class HomePageView(ListView):
-	model = electricas
+	model = monitores
 	template_name = 'home.html'
 	context_object_name = 'docs_list'
 
@@ -43,6 +43,49 @@ class memoriasPageView(ListView):
 	model = memorias
 	template_name = 'memorias.html'
 	context_object_name = 'memo_list'
+
+
+#---------------------------------------------------------------
+# VISTAS PARA EL CONTROL DE BUSQUEDAS Q
+#---------------------------------------------------------------
+
+class memoriasPageViewBusq(ListView):
+	model = memorias
+	template_name = 'busqMemo.html'
+	context_object_name = 'memo_list'
+
+	def get_queryset(self):
+		if self.request.GET.get('q'):
+			query = self.request.GET.get('q')
+			return memorias.objects.filter(Q(producto__contains=query))
+		else:
+			pass
+
+
+class monitoresPageViewBusq(ListView):
+	model = monitores
+	template_name = 'busqMoni.html'
+	context_object_name = 'moni_list'
+
+	def get_queryset(self):
+		if self.request.GET.get('q'):
+			query = self.request.GET.get('q')
+			return monitores.objects.filter(Q(producto__contains=query))
+		else:
+			pass
+
+
+class tecladosPageViewBusq(ListView):
+	model = teclados
+	template_name = 'busqTecl.html'
+	context_object_name = 'tecl_list'
+
+	def get_queryset(self):
+		if self.request.GET.get('q'):
+			query = self.request.GET.get('q')
+			return teclados.objects.filter(Q(producto__contains=query))
+		else:
+			pass
 
 
 #---------------------------------------------------------------
@@ -218,87 +261,87 @@ def agregarMonitores (request):
 	# return render(request, 'agregarMonitores.html',data)
 
 
-@permission_required('ferre.change_electricas')
-def modificarEle (request, id):
+@permission_required('tec.change_monitores')
+def modificarMonitores (request, id):
 
-	Ele = get_object_or_404(electricas, id=id)
+	Mon = get_object_or_404(monitores, id=id)
 
 	data = {
-		'form': monitoresForm(instance=Ele)
+		'form': monitoresForm(instance=Mon)
 	}
 
 	if request.method == "GET":
 		form = monitoresForm()
 	else:
-		form = monitoresForm(request.POST,request.FILES, instance=Ele)
+		form = monitoresForm(request.POST,request.FILES, instance=Mon)
 		form.instance.rel_user = request.user
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Successfully added!")
-			return redirect('electricas')
+			return redirect('monitores')
 		else:
 			messages.error(request, "Por favor rellene todos los campos")
 	return render(request, 'modificar.html', data)
 
 
-@permission_required('ferre.delete_electricas')
-def eliminarEle (request, id):
-	Ele = get_object_or_404(electricas, id=id)
-	Ele.delete()
+@permission_required('tec.delete_monitores')
+def eliminarMonitores (request, id):
+	Mon = get_object_or_404(monitores, id=id)
+	Mon.delete()
 
-	return redirect(to = "electricas")
+	return redirect(to = "monitores")
 
 
 #---------------------------------------------------------------
-# MODELO NEUMATICAS
+# MODELO TECLADOS
 #---------------------------------------------------------------
 
 
-@permission_required('ferre.add_neumaticas')
-def agregarNeu (request):
+@permission_required('tec.add_teclados')
+def agregarTeclados (request):
 
 	if request.method == "GET":
-		form = NeuForm()
+		form = tecladosForm()
 	else:
-		form = NeuForm(request.POST,request.FILES)
+		form = tecladosForm(request.POST,request.FILES)
 		form.instance.rel_user = request.user
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Successfully added!")
-			return redirect('neumaticas')
+			return redirect('teclados')
 		else:
 			messages.error(request, "Por favor rellene todos los campos")
-	return render(request, 'agregarNeu.html', {"form": form})
+	return render(request, 'agregarTeclados.html', {"form": form})
 
 
-@permission_required('ferre.change_neumaticas')
-def modificarNeu (request, id):
+@permission_required('tec.change_teclados')
+def modificarTeclados (request, id):
 
-	Neu = get_object_or_404(neumaticas, id=id)
+	Tec = get_object_or_404(teclados, id=id)
 
 	data = {
-		'form': NeuForm(instance=Neu)
+		'form': tecladosForm(instance=Tec)
 	}
 
 	if request.method == "GET":
-		form = NeuForm()
+		form = tecladosForm()
 	else:
-		form = NeuForm(request.POST,request.FILES, instance=Neu)
+		form = tecladosForm(request.POST,request.FILES, instance=Tec)
 		form.instance.rel_user = request.user
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Successfully added!")
-			return redirect('neumaticas')
+			return redirect('teclados')
 		else:
 			messages.error(request, "Por favor rellene todos los campos")
 	return render(request, 'modificar.html', data)
 
 
-@permission_required('ferre.delete_neumaticas')
-def eliminarNeu (request, id):
-	Neu = get_object_or_404(neumaticas, id=id)
-	Neu.delete()
+@permission_required('ferre.delete_teclados')
+def eliminarTeclados (request, id):
+	Tec = get_object_or_404(teclados, id=id)
+	Tec.delete()
 
-	return redirect(to = "neumaticas")
+	return redirect(to = "teclados")
 
 #--------------------------------------------------------------------
