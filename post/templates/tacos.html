@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="p-4">
+	<center><h1>Comida: Tacos</h1><hr></center>
+
+	<form class="form-control">
+		
+		<div class="row">
+			
+				{% for tacos in tacos_list %}
+				<div class=col-md-4>
+                    <br>
+
+					        <center><strong><p>{{ tacos.nomb }}</p></strong></center><hr>
+
+					        <center><img src="{{ tacos.img.url }}" height="220" width="300"></center><br>
+
+				</div>
+
+				<div class="col-md-8">
+					
+					        <br><strong>Descripcion: </strong><p>{{ tacos.descr }}</p>
+
+					        <strong>Fecha de agregado: </strong><p>{{ tacos.date }}</p>
+
+					        <strong>Calificacion: </strong><p>{{ tacos.calif }}</p>
+					        
+		                    <br>   
+
+		                    {% if perms.post.change_tacos %}
+		                    <p><a href="{% url 'modificar_tacos' tacos.id  %}">Modificar</a></p>
+		                    {% endif %}
+
+		                    {% if perms.post.delete_tacos %}
+					        <p><a href="{% url 'eliminar_tacos' tacos.id  %}">Eliminar</a></p>
+					        {% endif %}
+				</div><hr>
+
+
+	    		{% endfor %}
+
+		</div><br><br>
+
+		{% if perms.post.add_gordas %}
+			<p><a href="{% url 'agregar' %}">Agregar</a></p>
+		{% endif %}
+		
+	</form>
+	<br>
+
+</div>
+
+{% endblock content %}

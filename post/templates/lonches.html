@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="p-4">
+	<center><h1>Comida: Lonches</h1><hr></center>
+
+	<form class="form-control">
+		
+		<div class="row">
+			
+				{% for lonches in lonches_list %}
+				<div class=col-md-4>
+                    <br>
+
+					        <center><strong><p>{{ lonches.nomb }}</p></strong><hr></center>
+
+					        <center><img src="{{ lonches.img.url }}" height="220" width="300"></center><br>
+
+				</div>
+
+				<div class="col-md-8">
+					
+					        <strong>Descripcion: </strong><p>{{ lonches.descr }}</p>
+
+					        <strong>Fecha de agregado: </strong><p>{{ lonches.date }}</p>
+
+					        <strong>Calificacion: </strong><p>{{ lonches.calif }}</p>
+					        
+		                    <br>   
+
+		                    {% if perms.post.change_lonches %}
+		                    <p><a href="{% url 'modificar_lonches' lonches.id  %}">Modificar</a></p>
+		                    {% endif %}
+
+		                    {% if perms.post.delete_lonches %}
+					        <p><a href="{% url 'eliminar_lonches' lonches.id  %}">Eliminar</a></p>
+					        {% endif %}
+				</div><br>
+
+
+	    		{% endfor %}
+
+		</div><br><br>
+
+		{% if perms.post.add_lonches %}
+			<p><a href="{% url 'agregar' %}">Agregar</a></p>
+		{% endif %}
+		
+	</form>
+	<br>
+
+</div>
+
+{% endblock content %}

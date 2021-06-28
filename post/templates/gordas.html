@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<script type="text/javascript">alert("Bienvenidos!!!");</script>
+
+<div class="p-4">
+	<center><h1>Comida: Gordas</h1><hr></center>
+
+	<form class="form-control">
+		
+		<div class="row">
+			
+				{% for gordas in gordas_list %}
+				<div class=col-md-4>
+                    <br>
+
+					        <center><strong><p>{{ gordas.nomb }}</p></strong><hr></center>
+
+					        <center><img src="{{ gordas.img.url }}" height="220" width="220"></center>
+
+				</div>
+
+				<div class="col-md-8">
+					
+					        <strong>Descripcion: </strong><p>{{ gordas.descr }}</p>
+
+					        <strong>Fecha de agregado: </strong><p>{{ gordas.date }}</p>
+
+					        <strong>Calificacion: </strong><p>{{ gordas.calif }}</p>
+					        
+		                    <br>   
+
+		                    {% if perms.post.change_gordas %}
+		                    <p><a href="{% url 'modificar_gordas' gordas.id  %}">Modificar</a></p>
+		                    {% endif %}
+
+		                    {% if perms.post.delete_gordas %}
+					        <p><a href="{% url 'eliminar_gordas' gordas.id  %}">Eliminar</a></p>
+					        {% endif %}
+				</div><br>
+
+
+	    		{% endfor %}
+
+		</div><br><br>
+
+		{% if perms.post.add_gordas %}
+			<p><a href="{% url 'AGREGARGORDAS' %}">Agregar</a></p>
+		{% endif %}
+		
+	</form>
+	<br>
+
+</div>
+
+{% endblock content %}

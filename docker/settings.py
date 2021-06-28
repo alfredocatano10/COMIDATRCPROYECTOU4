@@ -45,7 +45,7 @@ if ENVIROMENT == 'production':
 # Application definition
 
 INSTALLED_APPS = [
-    'tec.apps.TecConfig',
+    'post.apps.PostConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,10 +58,10 @@ INSTALLED_APPS = [
     'allauth.account', 
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,13 +69,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
-# PERFORMANCE CACHE
-CACHE_MIDDLEWARE_ALIAS = 'default'
-CACHE_MIDDLEWARE_SECONDS = 604800
-CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 
 ROOT_URLCONF = 'docker.urls'
@@ -150,9 +145,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-#----------------------------------------------------------------------
-# DIRECTORIOS ESTATICOS
-#----------------------------------------------------------------------
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -169,40 +161,43 @@ STATICFILES_FINDERS = [
 ]
 
 #----------------------------------------------------------------------
-# DIRECTORIOS MEDIA
-#----------------------------------------------------------------------
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL = '/media/'
 
-#----------------------------------------------------------------------
-# REDIRECCIONES DE INICIO Y FIN DE SESION
-#----------------------------------------------------------------------
+MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = 'home'
 
 LOGOOUT_REDIRECT_URL = 'index'
 
 #----------------------------------------------------------------------
-# ENLAZE DE CRISPY FORMS CON BOOTSTRAP
-#----------------------------------------------------------------------
+
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-#----------------------------------------------------------------------
-# VARIABLES DE CORREO Y AUTENTIFICACION DE CORREO
-#----------------------------------------------------------------------
+SITE_ID = 1
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+AUTHENTICATION_BACKENDS = (
+ 'django.contrib.auth.backends.ModelBackend',
+ 'allauth.account.auth_backends.AuthenticationBackend', 
+
+ 'social_core.backends.github.GithubOAuth2',
+)
+
+SOCIAL_AUTH_GITHUB_KEY = '01969b7e72f710b4fc60'
+
+SOCIAL_AUTH_GITHUB_SECRET = '9d8a0a3cb752fe270de21faddc729617cdcb9925'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 
-EMAIL_HOST_USER = 'alu.15131296@correo.itlalaguna.edu.mx'
+EMAIL_HOST_USER = 'alu.15131297@correo.itlalaguna.edu.mx'
 
 EMAIL_HOST_PASSWORD = '123456789'
+
+
 
 EMAIL_PORT = 587
 
@@ -212,7 +207,7 @@ EMAIL_USE_SSL = False
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-#----------------------------------------------------------------------
+
 
 ACCOUNT_EMAIL_VERIFICATION = True
 
@@ -226,21 +221,8 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 ACCOUNT_SESSION_REMEMBER = True
 
-#----------------------------------------------------------------------
-# LLAVES PARA LA AUTENTIFICACION POR GITHUB
-#----------------------------------------------------------------------
 
-SITE_ID = 1
 
-AUTHENTICATION_BACKENDS = (
- 'django.contrib.auth.backends.ModelBackend',
- 'allauth.account.auth_backends.AuthenticationBackend', 
- 'social_core.backends.github.GithubOAuth2',
-)
-
-SOCIAL_AUTH_GITHUB_KEY = 'a3112903b470adc278f4'
-
-SOCIAL_AUTH_GITHUB_SECRET = '48caabfed0a8b9d6819a087c2b4a95b93450c4d5'
 
 
 
