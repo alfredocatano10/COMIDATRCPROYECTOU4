@@ -21,7 +21,7 @@ from django.db.models import Q
 
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
-
+#Muestra la pagina Home, Tacos, Gorditas, Lonches
 class HomeView(ListView):
 	model = tacos
 	template_name = 'home.html'
@@ -45,23 +45,26 @@ class lonchesView(ListView):
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
-#INICIAR SESION Y REGISTRAR USUARIO
+#Registro de usuario por medio de usuario y contraseña
 class RegistrarPageView (CreateView):
 	model = User
 	template_name = 'registration/registrar.html'
 	form_class =  UserCreationForm
 	success_url = reverse_lazy('registro_success')
 
+#Pagina a la que se redirige tras haber registrado un producto
 class RegistroPageView(ListView):
 	model = tacos
 	template_name = 'registration/registro_success.html'
 
+#Registro de usuario por medio de usuario y contraseña
 class ResetPageView (CreateView):
 	model = User
 	form_class =  UserCreationForm
 	template_name = 'registration/reset.html'
 	success_url = reverse_lazy('home')
 
+#Vista para registrar un usuario por medio de un formulario personalizado
 def registroUsuario (request):
 	data = {
 		'form': CustomUserForm()
@@ -78,6 +81,8 @@ def registroUsuario (request):
 			
 	return render(request, 'registration/registrar.html', data)	
 
+
+#Vista para cambio de contraseña
 def changePassword(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
@@ -94,6 +99,7 @@ def changePassword(request):
         'form': form
     })
 
+#Vista para envio de correo para cambiar la contraseña
 def password_reset_request(request):
 	if request.method == "POST":
 		password_reset_form = PasswordResetForm(request.POST)
@@ -126,6 +132,7 @@ def password_reset_request(request):
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 
+#Vista para registrar un producto lonches
 def agregar_lonches (request):
 
 	if request.method == "GET":
@@ -138,14 +145,14 @@ def agregar_lonches (request):
 			return redirect('lonches')
 	return render(request, 'AGREGARLONCHES.html', {"form": form})
 
-
+#Vista para eliminar producto lonche
 def eliminar_lonches (request, id):
 	lon = get_object_or_404(lonches, id=id)
 	lon.delete()
 
 	return redirect(to = "lonches")
 
-
+#Vista para modificar producto lonches
 def modificar_lonches (request, id):
 
 	lon = get_object_or_404(lonches, id=id)
@@ -166,7 +173,7 @@ def modificar_lonches (request, id):
 
 
 #-------------------------------------------------------------------------
-
+#Vista para registrar un producto lonches
 def agregar_gordas (request):
 
 	if request.method == "GET":
@@ -179,14 +186,14 @@ def agregar_gordas (request):
 			return redirect('gordas')
 	return render(request, 'AGREGARGORDAS.html', {"form": form})
 
-
+#Vista para eliminar producto lonche
 def eliminar_gordas (request, id):
 	God = get_object_or_404(gordas, id=id)
 	God.delete()
 
 	return redirect(to = "gordas")
 
-
+#Vista para modificar producto gordas
 def modificar_gordas (request, id):
 
 	God = get_object_or_404(gordas, id=id)
@@ -207,7 +214,7 @@ def modificar_gordas (request, id):
 
 
 #-------------------------------------------------------------------------
-
+#Vista para registrar un producto tacos
 def agregar_tacos (request):
 
 	if request.method == "GET":
@@ -220,14 +227,14 @@ def agregar_tacos (request):
 			return redirect('tacos')
 	return render(request, 'agregar.html', {"form": form})
 
-
+#Vista para eliminar producto tacos
 def eliminar_tacos (request, id):
 	Tac = get_object_or_404(tacos, id=id)
 	Tac.delete()
 
 	return redirect(to = "tacos")
 
-
+#Vista para modificar producto tacos
 def modificar_tacos (request, id):
 
 	Tac = get_object_or_404(tacos, id=id)
@@ -246,7 +253,8 @@ def modificar_tacos (request, id):
 			return redirect('tacos')
 	return render(request, 'modificar.html', data)
 
-
+#Esta vista regresa los resultados de buscar las gorditas
+#GET Querysert es el que filtra los resultados
 class GordasBusqueda(ListView):
 	model = gordas
 	template_name = 'GordasBusqueda.html'

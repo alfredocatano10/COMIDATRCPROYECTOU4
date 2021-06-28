@@ -22,6 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
+
+
+#SEGURIDAD DE EL SITIO WEB
 SECRET_KEY = 'qi%r-i7w^cx$42j_&6m$9rc!07@getl9pu3qtk!ahztae#jwl9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -44,6 +48,7 @@ if ENVIROMENT == 'production':
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'post.apps.PostConfig',
     'django.contrib.admin',
@@ -54,11 +59,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'crispy_forms',
+
+    #APLICACIONES QUE SE INSTALARON PARA LA AUTENTICACION DE USUARIOS
     'allauth',
     'allauth.account', 
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
+    
 ]
 
 MIDDLEWARE = [
@@ -97,6 +105,8 @@ WSGI_APPLICATION = 'docker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+#BASE DE DATOS HECHA CON POSTGRES
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -145,7 +155,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-
+#CONFIGURACION DE ARCHIVOS ESTATICOS
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
@@ -178,6 +188,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
 
+#CONFIGURACION POR AUTENTICACION DE REDES SOCIALES
 AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
  'allauth.account.auth_backends.AuthenticationBackend', 
@@ -189,6 +200,7 @@ SOCIAL_AUTH_GITHUB_KEY = '01969b7e72f710b4fc60'
 
 SOCIAL_AUTH_GITHUB_SECRET = '9d8a0a3cb752fe270de21faddc729617cdcb9925'
 
+#CONFIGURACION DEL SERVICIO DE CORREOS (SMTP)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
@@ -208,7 +220,7 @@ EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-
+#ALLAUTH
 ACCOUNT_EMAIL_VERIFICATION = True
 
 ACCOUNT_UNIQUE_EMAIL = True
