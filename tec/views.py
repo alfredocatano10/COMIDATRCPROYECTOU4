@@ -56,7 +56,7 @@ class memoriasPageViewBusq(ListView):
 
 	def get_queryset(self):
 		query = self.request.GET.get('q')
-		return memorias.objects.filter(Q(producto__contains=query))
+		return memorias.objects.filter(Q(producto__icontains=query))
 
 
 

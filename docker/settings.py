@@ -183,7 +183,7 @@ LOGOOUT_REDIRECT_URL = 'index'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 #----------------------------------------------------------------------
-# VARIABLES STRIPE
+# LLAVES DE STRIPE
 #----------------------------------------------------------------------
 
 STRIPE_TEST_PUBLISHABLE_KEY=os.environ.get('STRIPE_TEST_PUBLISHABLE_KEY')
@@ -194,6 +194,7 @@ STRIPE_TEST_SECRET_KEY=os.environ.get('STRIPE_TEST_SECRET_KEY')
 # VARIABLES DE CORREO Y AUTENTIFICACION DE CORREO
 #----------------------------------------------------------------------
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -219,7 +220,11 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
-# django-allauth config
+ACCOUNT_SESSION_REMEMBER = True
+
+#----------------------------------------------------------------------
+# LLAVES PARA LA AUTENTIFICACION POR GITHUB
+#----------------------------------------------------------------------
 
 SITE_ID = 1
 
@@ -229,10 +234,11 @@ AUTHENTICATION_BACKENDS = (
  'social_core.backends.github.GithubOAuth2',
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-ACCOUNT_SESSION_REMEMBER = True
-
 SOCIAL_AUTH_GITHUB_KEY = 'a3112903b470adc278f4'
 
 SOCIAL_AUTH_GITHUB_SECRET = '48caabfed0a8b9d6819a087c2b4a95b93450c4d5'
+
+
+
+
+
