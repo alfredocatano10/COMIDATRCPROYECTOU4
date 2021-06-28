@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'allauth.account', 
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
-    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -210,7 +209,6 @@ EMAIL_USE_TSL = True
 
 DEFAULT_FROM_EMAIL = 'CodingWithMitch Team <noreply@codingwithmitch.com>'
 
-
 ACCOUNT_EMAIL_VERIFICATION = True
 
 ACCOUNT_UNIQUE_EMAIL = True
@@ -227,8 +225,8 @@ SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
  'django.contrib.auth.backends.ModelBackend',
- 'allauth.account.auth_backends.AuthenticationBackend', # new
- 'social.backends.github.GithubOAuth2',
+ 'allauth.account.auth_backends.AuthenticationBackend', 
+ 'social_core.backends.github.GithubOAuth2',
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -238,17 +236,3 @@ ACCOUNT_SESSION_REMEMBER = True
 SOCIAL_AUTH_GITHUB_KEY = 'a3112903b470adc278f4'
 
 SOCIAL_AUTH_GITHUB_SECRET = '48caabfed0a8b9d6819a087c2b4a95b93450c4d5'
-
-
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.social_auth.associate_by_email',  # <--- enable this one. to match users per email adress
-    'social.pipeline.user.create_user',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details',
-)

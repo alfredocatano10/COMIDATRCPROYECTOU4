@@ -55,11 +55,9 @@ class memoriasPageViewBusq(ListView):
 	context_object_name = 'memo_list'
 
 	def get_queryset(self):
-		if self.request.GET.get('q'):
-			query = self.request.GET.get('q')
-			return memorias.objects.filter(Q(producto__contains=query))
-		else:
-			pass
+		query = self.request.GET.get('q')
+		return memorias.objects.filter(Q(producto__contains=query))
+
 
 
 class monitoresPageViewBusq(ListView):
@@ -68,11 +66,9 @@ class monitoresPageViewBusq(ListView):
 	context_object_name = 'moni_list'
 
 	def get_queryset(self):
-		if self.request.GET.get('q'):
-			query = self.request.GET.get('q')
-			return monitores.objects.filter(Q(producto__contains=query))
-		else:
-			pass
+		query = self.request.GET.get('q')
+		return monitores.objects.filter(Q(producto__contains=query))
+
 
 
 class tecladosPageViewBusq(ListView):
@@ -81,11 +77,9 @@ class tecladosPageViewBusq(ListView):
 	context_object_name = 'tecl_list'
 
 	def get_queryset(self):
-		if self.request.GET.get('q'):
-			query = self.request.GET.get('q')
-			return teclados.objects.filter(Q(producto__contains=query))
-		else:
-			pass
+		query = self.request.GET.get('q')
+		return teclados.objects.filter(Q(producto__contains=query))
+
 
 
 #---------------------------------------------------------------
